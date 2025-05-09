@@ -152,3 +152,18 @@ function mvnNew() {
 
 ### End region
 
+### Start region: Multiple Java versions in Windows
+$java_dir = "C:\Program Files\Java\"
+
+function _choose-java () {
+    $_chosen_java = $(Get-Childitem -Directory -Path "$java_dir" | ForEach-Object {$_.Name} | fzf);
+    echo $_chosen_java;
+}
+
+function use-java () {
+    $chosen_java = $(_choose-java);
+    $Env:Path = $Env:Path -replace "jdk-\d{2}", $chosen_java;
+    $Env:JAVA_HOME = "$java_dir$chosen_java";
+}
+
+### End region
