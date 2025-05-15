@@ -46,6 +46,19 @@ function chrome {
 }
 ### End region
 
+### Start region: Starting bookmark web access for Default profile
+function bookmark {
+    $file = "$ENV:USERPROFILE\AppData\Local\Google\Chrome\User Data\Default\Bookmarks";
+    if (!(Test-Path -Path "$file")) {
+        $file = Read-Host "Enter the bookmarks file path:";
+    }
+    tsc bookmarks.ts;
+    $selected = node bookmarks.js "$file" | fzf;
+    $url = $selected.Substring($selected.LastIndexOf("~") + 1);
+    Start-process -FilePath C:\'Program Files'\Google\Chrome\Application\chrome.exe $url;
+}
+### End region
+
 ### Start region: Cloning github repositories in appropriate location
 function dev-clone {
     param(
