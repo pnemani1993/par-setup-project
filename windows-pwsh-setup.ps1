@@ -52,8 +52,11 @@ function bookmark {
     if (!(Test-Path -Path "$file")) {
         $file = Read-Host "Enter the bookmarks file path:";
     }
-    tsc bookmarks.ts;
+    tsc bookmarks.ts > $null;
     $selected = node bookmarks.js "$file" | fzf;
+    if ($selected -eq $null){
+        return;
+    }
     $url = $selected.Substring($selected.LastIndexOf("~") + 1);
     Start-process -FilePath C:\'Program Files'\Google\Chrome\Application\chrome.exe $url;
 }

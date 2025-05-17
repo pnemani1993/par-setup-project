@@ -33,6 +33,7 @@ fs.readFile(filePath, 'utf-8', (err, data) => {
                     const child3: Leaf[] | null = obj2["children"];
                     if (child3 != null){
                         for(const obj3 of child3){
+                            if(obj3.url == undefined) continue;
                             stringList.push(`${obj3.name}~~${obj3.url}`);
                         }
                     }   
