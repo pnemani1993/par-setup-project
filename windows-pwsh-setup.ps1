@@ -91,6 +91,7 @@ function _process_url([string]$url){
     } else {
         $repo = $repo.Substring($last_index + 1).Replace(".git", "");
         $repo = $dir + "\" + $repo;
+    }
         if (Test-Path -Path $repo){
             Write-Host "The repo already exists: $repo"
         } else {
@@ -100,7 +101,6 @@ function _process_url([string]$url){
             Pop-Location;
             Write-Host "The repo is cloned: $repo";
         }
-    }
 }
 ### End region
 
