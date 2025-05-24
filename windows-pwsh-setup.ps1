@@ -52,8 +52,8 @@ function bookmark {
     if (!(Test-Path -Path "$file")) {
         $file = Read-Host "Enter the bookmarks file path:";
     }
-    $loc = Get-Location | Select-String par-setup-project
-    tsc bookmarks.ts --outFile bookmarks.js --outDir "$loc" > $null;
+    $loc = (Get-Item $PROFILE).DirectoryName
+    tsc "$loc\bookmarks.ts" --outDir "$loc" > $null;
     $selected = node "$loc\bookmarks.js" "$file" | fzf;
     if ($selected -eq $null){
         return;
