@@ -1,0 +1,45 @@
+# Vim setup #
+
+- Paste the following contents in the .vimrc file in the $HOME.
+- In windows use `:edit $MYVIMRC` or `vim _vimrc` in the $HOME folder.
+
+```bash
+syntax on
+" Start region: rust plugin support
+syntax enable
+filetype plugin indent on
+let g:rustfmt_autosave = 1
+" End region: rust plugin support 
+set fileformat=unix
+set encoding=UTF-8
+
+au BufNewFile,BufRead *.py
+    \ set tabstop=4 |
+    \ set softtabstop=4 |
+    \ set shiftwidth=4 |
+
+set tabstop=2
+set softtabstop=2
+set shiftwidth=2
+set autoindent
+set smartindent
+set smarttab
+set expandtab
+
+set cursorline
+set number
+set scrolloff=8
+set signcolumn=yes
+
+set showcmd
+
+set textwidth=79
+
+set ignorecase
+set smartcase
+set incsearch
+set hlsearch
+
+set mouse=a
+
+```
