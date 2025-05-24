@@ -23,6 +23,10 @@ function install-essentials() {
         npm install typescript -g;
         Write-Host "Latest versions of node, npm and typescript downloaded";
     }
+
+    if (!(get-command edit)) {
+        winget install Microsoft.Edit;
+    }
 }
 
 install-essentials;
