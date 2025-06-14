@@ -16,6 +16,10 @@ function install-essentials() {
         winget install jqlang.jq;
     }
 
+    if(!(get-command gum)) {
+        winget install charmbracelet.gum
+    }
+
     # For javascript and typescript - fnm, node, npm, typescript 
     if (!(get-command fnm)){
         winget install Schniz.fnm;
