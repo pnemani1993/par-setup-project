@@ -4,6 +4,20 @@ $dev_dir = $env:userprofile + "\dev"
 
 ### Start region: Installing essential packages
 function install-essentials() {
+
+    ### Start region: Getting Powershell 7
+    $str = $(pwsh --version);
+    if ($str -match "Powershell 7.*") {
+        Write-Output "Using $str";
+    }
+    else {
+        Write-Output "Not the latest version of Powershell";
+        winget install --id Microsoft.Powershell --source winget; 
+        pwsh;
+    }
+
+### End region: Getting Powershell 7
+
     if (!(get-command fzf)){
         winget install fzf; 
         echo "fzf installed";
@@ -30,6 +44,25 @@ function install-essentials() {
 
     if (!(get-command edit)) {
         winget install Microsoft.Edit;
+    }
+
+### install java versions 17 and 21
+    if (!(get-command java)){
+        winget install Microsoft.OpenJDK.17
+        Write-Output "Java 17 installed"
+        winget install Microsoft.OpenJDK.21
+        Write-Output "Java 21 installed"
+    } else if (!(java --version | Select-Object -First 1 | Select-string -Pattern "17.0")) {
+        winget install Microsoft.OpenJDK.17
+        Write-Output "Java 17 installed"
+    } else if (!(java --version | Select-Object -First 1 | Select-string -Pattern "21.0")) {
+        winget install Microsoft.OpenJDK.21
+        Write-Output "Java 21 installed"
+    }
+
+### install python in windows using winget
+    if(!(get-command python)) {
+        winget install Python.Python.3.13
     }
 }
 
