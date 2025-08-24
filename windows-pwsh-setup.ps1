@@ -79,7 +79,13 @@ function chrome {
     if ($url){
         Start-process -FilePath C:\'Program Files'\Google\Chrome\Application\chrome.exe "$url";
     } elseif (Test-Path -Path ".git"){
-        $git_url = ((git ls-remote --get-url) -replace ':', '/') -replace 'git@', 'https://';
+        $git_str = (git ls-remote --get-url);
+        if ($git_str.Contains("https://")) {
+            $git_url = $git_str
+        } else {
+            $git_url = ($git_str -replace ':', '/') -replace 'git@', 'https://';
+        }
+        
         Start-process -FilePath C:\'Program Files'\Google\Chrome\Application\chrome.exe $git_url; 
     } else {
         Start-process -FilePath C:\'Program Files'\Google\Chrome\Application\chrome.exe google.com;
