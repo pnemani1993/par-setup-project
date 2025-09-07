@@ -12,6 +12,7 @@ alias mvnTree='mvn dependency:tree | code -'
 alias gitMaster="git checkout $(git branch --remotes | grep HEAD | sed 's/.*-> //g') && git pull"
 alias nocommit='git commit --amend --no-edit && git push --force'
 alias chrome='open -a /Applications/"Google Chrome.app"'
+alias gitSave="git stash store $(git stash create) -m $(date)"
 
 export DEV_DIR="${HOME}/dev"
 

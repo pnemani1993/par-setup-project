@@ -1,5 +1,6 @@
 ### Start region: Setting global variables
 $dev_dir = $env:userprofile + "\dev"
+$MYVIMRC = $env:userprofile + "\_vimrc" 
 ### End region
 
 ### Start region: Installing essential packages
@@ -186,7 +187,28 @@ function nocommit() {
 } 
 
 function gitMaster() {
+    if (!(Test-Path -PathType Container -Path ".git")){
+        Write-Host "Not a git project";
+        return;
+    }
     git checkout $(git branch --remotes | Where-Object { $_ -match "HEAD"} | ForEach-Object {$_ -replace ".*-> ", ""});
+}
+
+function gitSave() {
+    if (!(Test-Path -PathType Container -Path ".git")){
+        Write-Host "Not a git project";
+        return;
+    }
+    $message = $(Get-Date);
+    git stash store $(git stash create) -m "$message";
+}
+
+function gitShow {
+    param(
+        [Parameter(Position=0, Mandatory, ValueFromPipeline)]
+        [int] $revision
+    )
+    git stash show -p stash@'{'$revision'}';
 }
 
 ### End region
