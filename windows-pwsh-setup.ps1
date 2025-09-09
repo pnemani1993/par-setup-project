@@ -253,4 +253,7 @@ function use-java () {
     Write-Output "Using $chosen_java in the current shell";
 }
 
+function jcompile() {
+    javac -d target (Get-ChildItem -Recurse -Filter *.java | ForEach-Object { $_.FullName })
+}
 ### End region

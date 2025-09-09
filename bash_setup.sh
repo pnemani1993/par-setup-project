@@ -114,3 +114,10 @@ function ,clone() {
         return -1;
 }
 ### End region
+
+
+### Java related scripts 
+
+function jcompile() {
+    javac -d target $(find src -name "*.java")    
+}
