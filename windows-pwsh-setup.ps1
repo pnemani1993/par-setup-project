@@ -1,8 +1,15 @@
 ### Start region: Setting global variables
 $dev_dir = $env:userprofile + "\dev"
 $MYVIMRC = $env:userprofile + "\_vimrc"
-$env:PATH = $env:PATH + ";" + $env:userprofile + "\Gradle\gradle-9.0.0\bin"
-$JDK_INSTALLATION_DIR = $env:userprofile + "\Java"
+
+### Create the following directory  structure in $env:userprofile: 
+### `.jvm` --> .jdks (for saving all the java versions)
+###    |-----> .gradle (for all the gradle versions)
+###    |-----> .groovy (for all the groovy versions)
+$env:PATH = $env:PATH + ";" + $env:userprofile + "\.jvm\.gradle\gradle-9.0.0\bin"
+$JDK_INSTALLATION_DIR = $env:userprofile + "\.jvm\.jdks"
+$GRADLE_INSTALLATION_DIR = $env:userprofile + "\.jvm\.gradle"
+$GROOVY_INSTALLATION_DIR = $env:userprofile + "\.jvm\.groovy"
 ### End region
 
 ### Start region: Installing essential packages
@@ -250,7 +257,7 @@ function _choose-java () {
 
 function use-java () {
     $chosen_java = $(_choose-java);
-    $Env:Path = $Env:Path -replace '(?<=Java\\)\w+-[^\\]+(?=\\bin)', $chosen_java;
+    $Env:Path = $Env:Path -replace '(?<=\.jdks\\)\w+-[^\\]+(?=\\bin)', $chosen_java;
     $Env:JAVA_HOME = "${JDK_INSTALLATION_DIR}\${chosen_java}";
     Write-Output "Using $chosen_java in the current shell";
     java --version;
@@ -259,6 +266,37 @@ function use-java () {
 function jcompile() {
     javac -d target (Get-ChildItem -Recurse -Filter *.java | ForEach-Object { $_.FullName })
 }
+
+# Gradle
+
+function _choose-gradle() {
+    $_chosen_gradle = $(Get-Childitem -Directory -Path "$GRADLE_INSTALLATION_DIR" | ForEach-Object {$_.Name} | fzf);
+    echo $_chosen_gradle;
+}
+
+function use-gradle () {
+    $chosen_gradle = $(_choose-gradle);
+    $Env:Path = $Env:Path -replace '(?<=\.gradle\\)\w+-[^\\]+(?=\\bin)', $chosen_gradle;
+    $Env:GRADLE_HOME = "${GRADLE_INSTALLATION_DIR}\${chosen_gradle}";
+    Write-Output "Using $chosen_gradle in the current shell";
+    gradle --version;
+}
+
+# Groovy
+function _choose-groovy() {
+    $_chosen_groovy = $(Get-Childitem -Directory -Path "$GROOVY_INSTALLATION_DIR" | ForEach-Object {$_.Name} | fzf);
+    echo $_chosen_groovy;
+}
+
+function use-groovy () {
+    $chosen_groovy = $(_choose-groovy);
+    $Env:Path = $Env:Path -replace '(?<=\.groovy\\)\w+-[^\\]+(?=\\bin)', $chosen_groovy;
+    $Env:GROOVY_HOME = "${GROOVY_INSTALLATION_DIR}\${chosen_groovy}";
+    Write-Output "Using $chosen_groovy in the current shell";
+    groovy --version;
+}
+
+
 ### End region
 
 function set_fnm() {
