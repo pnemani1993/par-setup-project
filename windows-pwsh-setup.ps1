@@ -1,6 +1,8 @@
 ### Start region: Setting global variables
 $dev_dir = $env:userprofile + "\dev"
-$MYVIMRC = $env:userprofile + "\_vimrc" 
+$MYVIMRC = $env:userprofile + "\_vimrc"
+$env:PATH = $env:PATH + ";" + $env:userprofile + "\Gradle\gradle-9.0.0\bin"
+$JDK_INSTALLATION_DIR = $env:userprofile + "\Java"
 ### End region
 
 ### Start region: Installing essential packages
@@ -239,21 +241,26 @@ function mvnNew() {
 ### End region
 
 ### Start region: Multiple Java versions in Windows
-$java_dir = "C:\Program Files\Java\"
+### Needs the JDK_INSTALLATION_DIR variable
 
 function _choose-java () {
-    $_chosen_java = $(Get-Childitem -Directory -Path "$java_dir" | ForEach-Object {$_.Name} | fzf);
+    $_chosen_java = $(Get-Childitem -Directory -Path "$JDK_INSTALLATION_DIR" | ForEach-Object {$_.Name} | fzf);
     Write-Output $_chosen_java;
 }
 
 function use-java () {
     $chosen_java = $(_choose-java);
-    $Env:Path = $Env:Path -replace "jdk-\d{2}", $chosen_java;
-    $Env:JAVA_HOME = "$java_dir$chosen_java";
+    $Env:Path = $Env:Path -replace '(?<=Java\\)\w+-[^\\]+(?=\\bin)', $chosen_java;
+    $Env:JAVA_HOME = "${JDK_INSTALLATION_DIR}\${chosen_java}";
     Write-Output "Using $chosen_java in the current shell";
+    java --version;
 }
 
 function jcompile() {
     javac -d target (Get-ChildItem -Recurse -Filter *.java | ForEach-Object { $_.FullName })
 }
 ### End region
+
+function set_fnm() {
+        fnm env --use-on-cd --shell powershell | Out-String | Invoke-Expression
+}
