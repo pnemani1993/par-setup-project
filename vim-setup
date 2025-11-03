@@ -1,16 +1,27 @@
 # Vim setup #
 
-- Paste the following contents in the .vimrc file in the $HOME.
+- Paste the following contents in the .vimrc or (_vimrc for windows) file in the $HOME.
 - In windows use `:edit $MYVIMRC` or `vim _vimrc` in the $HOME folder.
+- Download `vim-plug` for the Plugin management: 
+
 
 ```bash
+" For windows
+call plug#begin('~\_vim\plugged')
+" For Unix based systems
+" call plug#begin()
+Plug 'fatih/vim-go'
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'rust-lang/rust.vim'
+call plug#end()
+
 syntax on
 " Start region: rust plugin support
 syntax enable
 filetype plugin indent on
 let g:rustfmt_autosave = 1
-" End region: rust plugin support 
-set fileformat=unix
+" End region: rust plugin support
+set fileformat=dos
 set encoding=UTF-8
 
 au BufNewFile,BufRead *.py
@@ -25,8 +36,9 @@ set autoindent
 set smartindent
 set smarttab
 set expandtab
+set backspace=indent,eol,start
+set nocompatible
 
-set cursorline
 set number
 set scrolloff=8
 set signcolumn=yes
