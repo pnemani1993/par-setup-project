@@ -1,0 +1,14 @@
+theme = Adwaita Dark
+
+copy-on-select = clipboard
+
+window-save-state = always
+
+background-opacity = .95
+
+background-blur = 90
+
+window-decoration = true
+ 
+font-size = 17
+

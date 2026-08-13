@@ -1,0 +1,28 @@
+theme = "dark_high_contrast"
+
+[editor]
+line-number = "absolute"
+mouse = true
+cursorline = true
+rulers = [120]
+true-color = true
+path-completion = true
+clipboard-provider = "wayland"
+
+[editor.cursor-shape]
+insert = "bar"
+normal = "block"
+select = "underline"
+
+[editor.file-picker]
+hidden = false
+
+[editor.lsp]
+# Enable automatically popups of signature parameter help
+auto-signature-help = true
+# Show LSP messages in the status line
+display-messages = true
+enable = true
+
+[editor.statusline]
+left = ["mode", "spinner", "version-control", "file-name"]
